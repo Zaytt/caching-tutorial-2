@@ -18,6 +18,7 @@ public class TaskServiceImpl {
 
     ArrayList<TaskDTO> objs = new ArrayList();
 
+    //Cacheable stores the returning value of a method into the cache with the given value name.
     @Cacheable(value = "tasks")
     public ArrayList<TaskDTO> findAll() {
         try {
@@ -36,6 +37,7 @@ public class TaskServiceImpl {
         objs.add(new TaskDTO(2L, "My second task", false));
     }
 
+    //CachePut adds the task to
     @CachePut(value = "tasks", key = "#task.id")
     public boolean insert(TaskDTO task) {
         logger.info("inserting task");
@@ -57,6 +59,7 @@ public class TaskServiceImpl {
         return false;
     }
 
+    //CacheEvict clears the cache. In this case it deletes from the cache the task with the provided id
     @CacheEvict(value = "tasks", key = "#id")
     public boolean delete(int id) {
 
@@ -85,6 +88,7 @@ public class TaskServiceImpl {
         return null;
     }
 
+    //This variation of CacheEvict clears all the cache.
     @CacheEvict(value = "tasks", allEntries = true)
     public void clearCache() {
         logger.info("clearing cache");
